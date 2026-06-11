@@ -1,18 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "KtLzzJiK8hA=",
+  "dgSpecHash": "rwdet6v370M=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj",
+  "projectFilePath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0\\microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.0\\microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.14.0\\microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.14.0\\microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\microsoft.identitymodel.logging\\8.14.0\\microsoft.identitymodel.logging.8.14.0.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.14.0\\microsoft.identitymodel.tokens.8.14.0.nupkg.sha512",
-    "C:\\Users\\Claudio Matheus\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0\\system.diagnostics.diagnosticsource.10.0.0.nupkg.sha512"
+    "C:\\Users\\claud\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0\\microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.0\\microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.14.0\\microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.14.0\\microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\microsoft.identitymodel.logging\\8.14.0\\microsoft.identitymodel.logging.8.14.0.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.14.0\\microsoft.identitymodel.tokens.8.14.0.nupkg.sha512",
+    "C:\\Users\\claud\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0\\system.diagnostics.diagnosticsource.10.0.0.nupkg.sha512"
   ],
   "logs": []
 }
