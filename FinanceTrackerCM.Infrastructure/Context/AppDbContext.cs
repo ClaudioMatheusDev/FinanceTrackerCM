@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using FinanceTrackerCM.Domain.Entities;
+using FinanceTrackerCM.Application.Interfaces;
 using AuditLogCM.EFCore.Interceptors;
 
 namespace FinanceTrackerCM.Infrastructure.Context
 {   
 
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IAppDbContext
     {
 
         private readonly AuditInterceptor _auditInterceptor;
