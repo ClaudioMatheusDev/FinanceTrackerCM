@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj": {}
+    "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj": {
+    "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj",
+        "projectUniqueName": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj",
         "projectName": "FinanceTrackerCM.API",
-        "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj",
-        "packagesPath": "C:\\Users\\Claudio Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.API\\obj\\",
+        "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.API\\FinanceTrackerCM.API.csproj",
+        "packagesPath": "C:\\Users\\claud\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Claudio Matheus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\claud\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,17 +26,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj": {
-                "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj"
+              "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj": {
+                "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj"
               },
-              "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj"
+              "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj"
               }
             }
           }
@@ -51,7 +52,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -85,24 +86,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj": {
+    "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj",
+        "projectUniqueName": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj",
         "projectName": "FinanceTrackerCM.Application",
-        "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj",
-        "packagesPath": "C:\\Users\\Claudio Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\obj\\",
+        "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj",
+        "packagesPath": "C:\\Users\\claud\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Claudio Matheus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\claud\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -111,14 +112,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj": {
-                "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj"
+              "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj": {
+                "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj"
               }
             }
           }
@@ -133,7 +135,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -160,24 +162,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj": {
+    "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj",
         "projectName": "FinanceTrackerCM.Domain",
-        "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj",
-        "packagesPath": "C:\\Users\\Claudio Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\obj\\",
+        "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj",
+        "packagesPath": "C:\\Users\\claud\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Claudio Matheus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\claud\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -186,6 +188,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -204,7 +207,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -225,24 +228,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj": {
+    "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj",
         "projectName": "FinanceTrackerCM.Infrastructure",
-        "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Claudio Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\FinanceTrackerCM.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\claud\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Claudio Matheus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\claud\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -251,17 +254,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj": {
-                "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj"
+              "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj": {
+                "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Application\\FinanceTrackerCM.Application.csproj"
               },
-              "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj": {
-                "projectPath": "C:\\Users\\Claudio Matheus\\Desktop\\Projetos\\financetRACKERCM\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj"
+              "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj": {
+                "projectPath": "C:\\Users\\claud\\OneDrive\\Desktop\\PROJETOS\\PROJETOS\\FinanceTrackerCm\\FinanceTrackerCM\\FinanceTrackerCM.Domain\\FinanceTrackerCM.Domain.csproj"
               }
             }
           }
@@ -276,7 +280,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -285,6 +289,14 @@
             "AuditLogCM": {
               "target": "Package",
               "version": "[1.0.1, )"
+            },
+            "AuditLogCM.EFCore": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.3.11, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -313,7 +325,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
