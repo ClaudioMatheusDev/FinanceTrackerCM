@@ -5,16 +5,21 @@ using AuditLogCM.Core.Interfaces;
 using AuditLogCM.EFCore.Interceptors;
 using AuditLogCM.EFCore.DbContext;
 using Microsoft.EntityFrameworkCore;
+using AuditLogCM.EFCore.Serializers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+
 builder.Services.AddHttpContextAccessor();
+
 
 // Injeção de dependência para resolver o usuário atual
 builder.Services.AddScoped<ICurrentUserResolver, CurrentUserResolver>();
+// Configuração do serviço de auditoria
+builder.Services.AddScoped<IAuditSerializer, JsonAuditSerializer>();
 builder.Services.AddScoped<AuditInterceptor>();
 // Configuração do DbContext com o interceptor de auditoria
 builder.Services.AddDbContext<AuditDbContext>(options =>
