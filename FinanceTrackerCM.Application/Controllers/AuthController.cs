@@ -51,7 +51,7 @@ public class AuthController : ControllerBase
         if (!pw) return Unauthorized();
 
         var access = _tokenService.CreateAccessToken(user);
-        var refresh = _tokenService.CreateRefreshToken(user.Id, int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"]));
+        var refresh = _tokenService.CreateRefreshToken(user.Id, int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"] ?? "7"));
         _db.RefreshTokens.Add(refresh);
         await _db.SaveChangesAsync();
 
@@ -68,7 +68,7 @@ public class AuthController : ControllerBase
         if (user == null) return Unauthorized();
 
         rt.Revoked = true; // rotate
-        var newRefresh = _tokenService.CreateRefreshToken(user.Id, int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"]));
+        var newRefresh = _tokenService.CreateRefreshToken(user.Id, int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"] ?? "7"));
         _db.RefreshTokens.Add(newRefresh);
         await _db.SaveChangesAsync();
 

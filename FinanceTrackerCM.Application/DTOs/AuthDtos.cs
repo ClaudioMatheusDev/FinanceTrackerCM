@@ -1,5 +1,3 @@
-using System;
-
 namespace FinanceTrackerCM.Application.DTOs
 {
     public class RegisterDto
