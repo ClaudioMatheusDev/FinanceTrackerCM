@@ -44,7 +44,49 @@ namespace FinanceTrackerCM.API.Controllers
             var query = new ObterTodasContasQuery();
             var result = await _mediator.Send(query);
 
-            return Ok(result); 
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Método de ação para atualizar os dados de uma conta financeira existente, que recebe o Id da conta a ser atualizada como parâmetro na URL e um comando AtualizarContaCommand com os novos dados da conta no corpo da requisição
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] AtualizarContaCommand command)
+        {
+            command.Id = id;
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex) when (ex.Message.Contains("Conta não encontrada"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+
+        /// <summary>
+        ///  Método de ação para excluir uma conta financeira existente, que recebe o Id da conta a ser excluída como parâmetro na URL e envia um comando ExcluirContaCommand para o MediatR, que irá delegar a execução para o handler correspondente (ExcluirContaHandler) e retornar o Id da conta excluída. Retorna 204 No Content se a exclusão for bem-sucedida ou 404 Not Found se a conta não for encontrada.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new ExcluirContaCommand { Id = id };
+            try
+            {
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex) when (ex.Message.Contains("Conta não encontrada"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
     }
 }
