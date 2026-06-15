@@ -11,6 +11,7 @@ namespace FinanceTrackerCM.Domain.Entities
         public TipoTransacao Tipo { get; set; } // Tipo da categoria (Receita ou Despesa)
         public Guid IdUsuario { get; set; } // Identificador do usuário proprietário da categoria
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow; // Data de criação da categoria
+        public Guid TenantId { get; set; } // Identificador do tenant para suporte a multi-tenancy
     }
 
 

@@ -1,32 +1,45 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using AuditLogCM.EFCore.Interceptors;
 using FinanceTrackerCM.Domain.Entities;
 using FinanceTrackerCM.Application.Interfaces;
-using AuditLogCM.EFCore.Interceptors;
+using FinanceTrackerCM.Application.Users;
 
-namespace FinanceTrackerCM.Infrastructure.Context
+namespace FinanceTrackerCM.Infrastructure.Context;
+
+public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>, IAppDbContext
 {
-    // DbContext da aplicação, responsável por gerenciar as entidades do domínio e as operações de banco de dados
-    public class AppDbContext : DbContext, IAppDbContext
+    private readonly AuditInterceptor _auditInterceptor;
+    private readonly FinanceTrackerCM.Application.Interfaces.ICurrentUserResolver _currentUser;
+
+    public DbSet<Transacao> Transacoes { get; set; } = null!;
+    public DbSet<Categoria> Categorias { get; set; } = null!;
+
+    public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+    public DbSet<Conta> Contas { get; set; } = null!;
+
+    public AppDbContext(
+        DbContextOptions<AppDbContext> options,
+        AuditInterceptor auditInterceptor,
+        ICurrentUserResolver currentUser) : base(options)
     {
-        // Campo para armazenar o interceptor de auditoria, que será usado para registrar as operações de banco de dados
-        private readonly AuditInterceptor _auditInterceptor;
+        _auditInterceptor = auditInterceptor;
+        _currentUser = currentUser;
+    }
 
-        // Definição dos DbSets para as entidades do domínio
-        public DbSet<Transacao> Transacoes { get; set; } = null!;
-        public DbSet<Categoria> Categorias { get; set; } = null!;
-        public DbSet<Conta> Contas { get; set; } = null!;
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(_auditInterceptor);
+    }
 
-        // Construtor do DbContext que recebe as opções de configuração e o interceptor de auditoria
-        public AppDbContext(// Parâmetros do construtor: opções de configuração do DbContext e interceptor de auditoria
-            DbContextOptions<AppDbContext> options,
-            AuditInterceptor auditInterceptor) : base(options)
-        {       // Atribuição do interceptor de auditoria para uso nas operações de banco de dados
-            _auditInterceptor = auditInterceptor;
-        }
-        // Configuração do interceptor de auditoria para registrar as operações de banco de dados
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        { // Adição do interceptor de auditoria às opções de configuração do DbContext
-            optionsBuilder.AddInterceptors(_auditInterceptor);
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Exemplo de query filter usando TenantId (assume propriedades TenantId nas entidades)
+        modelBuilder.Entity<Conta>().HasQueryFilter(c => c.TenantId == _currentUser.TenantId);
+        modelBuilder.Entity<Categoria>().HasQueryFilter(c => c.TenantId == _currentUser.TenantId);
+        modelBuilder.Entity<Transacao>().HasQueryFilter(t => t.TenantId == _currentUser.TenantId);
     }
 }

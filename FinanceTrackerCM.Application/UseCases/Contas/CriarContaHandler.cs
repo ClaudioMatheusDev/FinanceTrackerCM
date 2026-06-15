@@ -9,9 +9,11 @@ public class CriarContaHandler : IRequestHandler<CriarContaCommand, Guid>
 { // Handler para o comando CriarContaCommand, responsável por executar a lógica de criação de uma nova conta financeira do usuário
     private readonly IAppDbContext _context;
     // Construtor do handler que recebe a instância do contexto de banco de dados por meio de injeção de dependência
-    public CriarContaHandler(IAppDbContext context)
+    private readonly ICurrentUserResolver _currentUserResolver;
+    public CriarContaHandler(IAppDbContext context, ICurrentUserResolver currentUserResolver)
     {// Atribuição da instância do contexto de banco de dados para uso no método Handle
         _context = context;
+        _currentUserResolver = currentUserResolver;
     }
     // Método Handle que executa a lógica de criação de uma nova conta financeira do usuário, utilizando os dados do comando CriarContaCommand e o contexto de banco de dados para persistir a nova conta
     public async Task<Guid> Handle(CriarContaCommand request, CancellationToken cancellationToken)
@@ -22,7 +24,7 @@ public class CriarContaHandler : IRequestHandler<CriarContaCommand, Guid>
             NomeConta = request.Nome, // Nome da conta fornecido no comando
             Saldo = request.SaldoInicial, // Saldo inicial fornecido no comando
             Status = StatusConta.Ativa, // Status da conta definido como Ativa por padrão
-            IdUsuario = Guid.NewGuid() // Id do usuário proprietário da conta (deve ser substituído pelo Id do usuário autenticado)
+            IdUsuario = _currentUserResolver.UserId, // Id do usuário proprietário da conta (do usuário autenticado)
         };
 
         _context.Contas.Add(novaConta); // Adicionar a nova conta ao DbSet de Contas do contexto de banco de dados para que ela seja persistida no banco de dados
