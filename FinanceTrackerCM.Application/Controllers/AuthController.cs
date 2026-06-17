@@ -36,7 +36,9 @@ namespace FinanceTrackerCM.Application.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email, TenantId = dto.TenantId };
+            // Ao registrar, não aceite TenantId do cliente. Por padrão deixamos Guid.Empty;
+            // administradores deverão associar o usuário a um tenant posteriormente.
+            var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email, TenantId = Guid.Empty };
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (!result.Succeeded) return BadRequest(result.Errors);
             return Ok();

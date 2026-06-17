@@ -15,14 +15,19 @@ public class CriarCategoriaHandler : IRequestHandler<CriarCategoriaCommand, Guid
         _currentUserResolver = currentUserResolver;
     }
 
-    public async Task<Guid> Handle(CriarCategoriaCommand request, CancellationToken cancellationToken)
-    {
-        var tenantId = _currentUserResolver.TenantId;
+        public async Task<Guid> Handle(CriarCategoriaCommand request, CancellationToken cancellationToken)
+        {
+            var tenantId = _currentUserResolver.TenantId;
+            var userId = _currentUserResolver.UserId;
+
+            if (userId == Guid.Empty)
+                throw new UnauthorizedAccessException("Usuário não autenticado.");
 
         var categoria = new Categoria
         {
             Id = Guid.NewGuid(),
             NomeCategoria = request.NomeCategoria,
+            IdUsuario = userId,
             TenantId = tenantId
         };
 
