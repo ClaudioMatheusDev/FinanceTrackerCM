@@ -1,10 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using FinanceTrackerCM.Application.UseCases.Categorias;
 
 namespace FinanceTrackerCM.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class CategoriasController : ControllerBase
     {
@@ -32,12 +34,28 @@ namespace FinanceTrackerCM.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async  Task<IActionResult> ListarCategorias()
+        {
+            var query = new ObterTodasCategoriasCommand();
+            var result = await _mediator.Send(query);
+
+            return Ok(result); 
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> ExcluirCategoriaHandler(Guid id)
         {
-            var command = new ExcluirCategoriaCommand { Id = id };
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            try
+            {
+                var command = new ExcluirCategoriaCommand { Id = id };
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocorreu um erro ao excluir a categoria: {ex.Message}");
+            }
         }
     }
 }

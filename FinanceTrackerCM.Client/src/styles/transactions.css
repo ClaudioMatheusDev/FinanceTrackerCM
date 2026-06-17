@@ -1,0 +1,47 @@
+/* Container principal */
+.page-container { display: flex; flex-direction: column; gap: 20px; }
+
+/* Estrutura de Card */
+.card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+/* Formulário em Grid Inteligente */
+.form-grid { display: flex; flex-direction: column; gap: 15px; }
+.input-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+  gap: 12px; 
+}
+.form-grid input { padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; outline: none; }
+.form-grid input:focus { border-color: #3498db; }
+
+/* Botão de Envio */
+.btn-submit { 
+  padding: 12px 24px; background: #27ae60; color: white; border: none; 
+  border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.95rem; 
+  align-self: flex-end; min-width: 180px; transition: 0.2s;
+}
+.btn-submit:hover { background: #219653; }
+
+/* Lista de Transações (Estilo Extrato) */
+.transaction-list { list-style: none; }
+.transaction-item { 
+  display: flex; justify-content: space-between; align-items: center; 
+  padding: 16px 0; border-bottom: 1px solid #eee; 
+}
+.transaction-item:last-child { border-bottom: none; }
+
+/* Detalhes da transação (Lado Esquerdo) */
+.transaction-info { display: flex; flex-direction: column; gap: 4px; }
+.transaction-desc { font-weight: 600; color: #2c3e50; font-size: 1.05rem; }
+.transaction-meta { font-size: 0.8rem; color: #7f8c8d; }
+
+/* Ações e Valor (Lado Direito) */
+.transaction-actions { display: flex; align-items: center; gap: 20px; }
+.transaction-amount { font-weight: bold; color: #2c3e50; font-size: 1.1rem; }
+
+/* Botão Excluir */
+.btn-delete { 
+  background: #e74c3c; color: white; border: none; padding: 6px 12px; 
+  border-radius: 4px; cursor: pointer; font-size: 0.8rem; transition: 0.2s; 
+}
+.btn-delete:hover { background: #c0392b; }

@@ -181,12 +181,6 @@ namespace FinanceTrackerCM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoriaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ContaId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("DataTransacao")
                         .HasColumnType("datetime2");
 
@@ -195,10 +189,12 @@ namespace FinanceTrackerCM.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("IdCategoria")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CategoriaId");
 
                     b.Property<Guid>("IdConta")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ContaId");
 
                     b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
@@ -217,9 +213,9 @@ namespace FinanceTrackerCM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex("IdCategoria");
 
-                    b.HasIndex("ContaId");
+                    b.HasIndex("IdConta");
 
                     b.ToTable("Transacoes");
                 });
@@ -359,13 +355,13 @@ namespace FinanceTrackerCM.Infrastructure.Migrations
                 {
                     b.HasOne("FinanceTrackerCM.Domain.Entities.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("CategoriaId")
+                        .HasForeignKey("IdCategoria")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FinanceTrackerCM.Domain.Entities.Conta", "Conta")
                         .WithMany()
-                        .HasForeignKey("ContaId")
+                        .HasForeignKey("IdConta")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

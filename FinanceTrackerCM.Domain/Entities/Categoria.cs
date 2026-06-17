@@ -1,4 +1,5 @@
 using FinanceTrackerCM.Domain.Enums;
+using FluentValidation;
 
 namespace FinanceTrackerCM.Domain.Entities
 {    // Entidade que representa uma categoria de transação financeira do usuário
@@ -12,6 +13,19 @@ namespace FinanceTrackerCM.Domain.Entities
         public Guid IdUsuario { get; set; } // Identificador do usuário proprietário da categoria
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow; // Data de criação da categoria
         public Guid TenantId { get; set; } // Identificador do tenant para suporte a multi-tenancy
+    }
+
+    public class CategoriaValidator : AbstractValidator<Categoria>
+    {
+        public CategoriaValidator()
+        {
+            RuleFor(c => c.NomeCategoria)
+                .NotEmpty().WithMessage("O nome da categoria é obrigatório.")
+                .MaximumLength(100).WithMessage("O nome da categoria deve ter no máximo 100 caracteres.");
+
+            RuleFor(c => c.Tipo)
+                .IsInEnum().WithMessage("O tipo da categoria deve ser Receita ou Despesa.");
+        }
     }
 
 

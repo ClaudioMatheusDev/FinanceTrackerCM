@@ -1,11 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using FinanceTrackerCM.Application.UseCases.Contas;
 
 namespace FinanceTrackerCM.API.Controllers
 { // Controlador de API para gerenciar as contas financeiras do usuário, responsável por receber as requisições HTTP 
   //relacionadas às contas e delegar a lógica de negócio para os handlers do MediatR
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]// Rota base para as requisições relacionadas às contas (ex: "api/contas")
     public class ContasController : ControllerBase
     {   // Campo para armazenar a instância do MediatR, que será usada para enviar os comandos e consultas relacionados às contas
