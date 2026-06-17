@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="AuditLogCM" Version="1.0.1" />
     <PackageReference Include="AuditLogCM.EFCore" Version="1.0.0" />
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.0" />
@@ -16,6 +17,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="QuestPDF" Version="2026.6.0" />
   </ItemGroup>
 
   <PropertyGroup>
