@@ -46,14 +46,24 @@ public class TokenService : ITokenService
 /// <param name="userId"></param>
 /// <param name="days"></param>
 /// <returns></returns>
-    public RefreshToken CreateRefreshToken(Guid userId, int days)
+    public (RefreshToken RefreshToken, string RawToken) CreateRefreshToken(Guid userId, int days)
     {
-        var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-        return new RefreshToken
+        var raw = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        var hash = ComputeRefreshTokenHash(raw);
+        var refresh = new RefreshToken
         {
             UserId = userId,
-            Token = token,
+            Token = hash,
             ExpiresAt = DateTime.UtcNow.AddDays(days)
         };
+        return (refresh, raw);
+    }
+
+    public string ComputeRefreshTokenHash(string token)
+    {
+        using var sha = System.Security.Cryptography.SHA256.Create();
+        var bytes = Encoding.UTF8.GetBytes(token);
+        var hash = sha.ComputeHash(bytes);
+        return Convert.ToHexString(hash); // .NET 5+ helper
     }
 }

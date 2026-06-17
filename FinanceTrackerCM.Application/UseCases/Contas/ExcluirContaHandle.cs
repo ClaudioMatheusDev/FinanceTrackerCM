@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using FinanceTrackerCM.Application.Interfaces;
 
 namespace FinanceTrackerCM.Application.UseCases.Contas;
-    public class ExcluirContaHandler : IRequestHandler<ExcluirContaCommand, Guid>
+    public class ExcluirContaHandle : IRequestHandler<ExcluirContaCommand, Guid>
 {       
     private readonly IAppDbContext _context;
     private readonly ICurrentUserResolver _currentUserResolver;
-    public ExcluirContaHandler(IAppDbContext context, ICurrentUserResolver currentUserResolver)
+    public ExcluirContaHandle(IAppDbContext context, ICurrentUserResolver currentUserResolver)
     {
         _context = context;
         _currentUserResolver = currentUserResolver;

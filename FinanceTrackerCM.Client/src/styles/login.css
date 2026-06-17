@@ -1,0 +1,100 @@
+/* Container que centraliza tudo na tela inteira */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f7f6; /* Mesmo fundo do Dashboard */
+  padding: 20px;
+}
+
+/* Card de Login */
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-card h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+/* Grupos de Input */
+.input-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+/* Efeito azul ao clicar no input */
+.input-group input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Botão de Entrar */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.btn-login:hover {
+  background: #2980b9;
+}
+
+/* Links de alternância entre telas de autenticação */
+.auth-switch {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.auth-switch a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* Botão de Registro (Verde para indicar criação/sucesso) */
+.btn-register {
+  background: #27ae60;
+}
+
+.btn-register:hover {
+  background: #219653;
+}

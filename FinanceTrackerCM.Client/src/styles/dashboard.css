@@ -1,0 +1,48 @@
+/* Container e Header */
+.page-container { display: flex; flex-direction: column; gap: 24px; }
+.dashboard-header h2 { color: #2c3e50; font-size: 1.8rem; margin-bottom: 4px; }
+.dashboard-header p { color: #7f8c8d; font-size: 0.95rem; }
+
+/* Base do Card */
+.card { background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+/* Grid de Indicadores Principais */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-left: 5px solid #bdc3c7;
+}
+
+.metric-title { font-size: 0.9rem; color: #7f8c8d; font-weight: 600; text-transform: uppercase; }
+.metric-value { font-size: 1.6rem; font-weight: bold; color: #2c3e50; }
+
+/* Cores de Destaque para os Cards */
+.card-saldo { border-left-color: #3498db; }
+.card-receita { border-left-color: #27ae60; }
+.card-receita .metric-value { color: #27ae60; }
+.card-despesa { border-left-color: #e74c3c; }
+.card-despesa .metric-value { color: #e74c3c; }
+
+/* Seção do Gráfico */
+.chart-section h3 { color: #2c3e50; margin-bottom: 16px; font-size: 1.2rem; }
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #e2e8f0;
+  border-radius: 6px;
+  padding: 60px 20px;
+  text-align: center;
+  color: #94a3b8;
+  background: #fafafa;
+  gap: 10px;
+}
+.chart-placeholder code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; color: #475569; }

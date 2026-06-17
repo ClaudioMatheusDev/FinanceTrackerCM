@@ -19,8 +19,13 @@ namespace FinanceTrackerCM.Infrastructure.Services
         {
             get
             {
-                var id = _accessor.HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
-                return id is null ? Guid.Empty : Guid.Parse(id);
+                // Tenta obter o id do usuário a partir de múltiplos tipos de claim para maior robustez
+                var user = _accessor.HttpContext?.User;
+                var id = user?.FindFirstValue(JwtRegisteredClaimNames.Sub)
+                         ?? user?.FindFirstValue(ClaimTypes.NameIdentifier)
+                         ?? user?.FindFirstValue("id");
+
+                return string.IsNullOrWhiteSpace(id) ? Guid.Empty : Guid.Parse(id);
             }
         }
         /// <summary>
