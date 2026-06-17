@@ -5,11 +5,11 @@ using FinanceTrackerCM.Application.Interfaces;
 
 namespace FinanceTrackerCM.Application.UseCases.Contas;
 
-public class AtualizarContaHandler : IRequestHandler<AtualizarContaCommand, Guid>
+public class AtualizarContaHandle : IRequestHandler<AtualizarContaCommand, Guid>
 {       
     private readonly IAppDbContext _context;
     private readonly ICurrentUserResolver _currentUserResolver;
-    public AtualizarContaHandler(IAppDbContext context, ICurrentUserResolver currentUserResolver)
+    public AtualizarContaHandle(IAppDbContext context, ICurrentUserResolver currentUserResolver)
     {
         _context = context;
         _currentUserResolver = currentUserResolver;

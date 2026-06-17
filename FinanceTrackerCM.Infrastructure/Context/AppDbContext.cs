@@ -37,6 +37,16 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<Transacao>()
+    .HasOne(t => t.Conta)
+    .WithMany()
+    .HasForeignKey(t => t.ContaId);
+
+    modelBuilder.Entity<Transacao>()
+    .HasOne(t => t.Categoria)
+    .WithMany()
+    .HasForeignKey(t => t.CategoriaId);
+
         // Exemplo de query filter usando TenantId (assume propriedades TenantId nas entidades)
         modelBuilder.Entity<Conta>().HasQueryFilter(c => c.TenantId == _currentUser.TenantId);
         modelBuilder.Entity<Categoria>().HasQueryFilter(c => c.TenantId == _currentUser.TenantId);

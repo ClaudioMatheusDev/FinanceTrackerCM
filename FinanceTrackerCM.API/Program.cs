@@ -25,16 +25,30 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddHttpContextAccessor();
 
+// CORS for frontend dev (Vite)
+var viteOrigin = builder.Configuration["Vite:Url"] ?? "http://localhost:5174";
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.WithOrigins(viteOrigin)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials());
+});
+
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
 // Configuração da autenticação JWT
-var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY"); // Obtém a chave JWT das variáveis de ambiente, que é usada para assinar os tokens de acesso e garantir a segurança da autenticação na aplicação. Essa chave deve ser mantida em segredo e configurada corretamente para evitar vulnerabilidades de segurança relacionadas à autenticação e autorização dos usuários na aplicação.
+// Preferir `Jwt:Key` na configuração; fallback para `JWT_KEY` env var se necessário
+var jwtKey = builder.Configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("JWT_KEY");
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 var jwtAudience = builder.Configuration["Jwt:Audience"];
 
+if (string.IsNullOrWhiteSpace(jwtKey))
+    throw new InvalidOperationException("Configuração 'Jwt:Key' não encontrada ou vazia.");
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,7 +70,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5174")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 // Injeção de dependência para resolver o usuário atual
 builder.Services.AddScoped<FinanceTrackerCM.Application.Interfaces.ICurrentUserResolver, CurrentUserResolver>();
@@ -79,17 +102,24 @@ builder.Services.AddMediatR(cfg =>
 
 builder.Services.AddScoped<ITokenService, TokenService>(); // Registro do serviço de token para injeção de dependência, permitindo que a aplicação utilize a implementação concreta do TokenService para criar tokens de acesso e atualização durante os processos de autenticação e autorização dos usuários na aplicação
 
+// Registrando serviços finais antes de construir a aplicação
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-builder.Services.AddAuthorization();
-builder.Services.AddHttpContextAccessor();
 
+app.UseCors();
+
+app.UseRouting();
+
+app.UseCors("Frontend");
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
