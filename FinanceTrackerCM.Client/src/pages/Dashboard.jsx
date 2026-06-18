@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import api from '../services/api'
 import '../styles/dashboard.css'
 
 export default function Dashboard(){
-  // Dados fictícios para simular o layout final
-  const resumo = {
-    saldoGeral: 0,
-    receitas: 0.00,
-    despesas: 0.00
-  }
+  const [resumo, setResumo] = useState({ saldoGeral: 0, receitas: 0.00, despesas: 0.00 })
+
+  useEffect(()=>{
+    api.get('/api/summary')
+      .then(r => setResumo(r.data))
+      .catch(()=>{})
+  },[])
 
   return (
     <div className="page-container">

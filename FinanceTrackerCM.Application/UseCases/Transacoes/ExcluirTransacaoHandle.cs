@@ -16,6 +16,10 @@ public class ExcluirTransacaoHandle : IRequestHandler<ExcluirTransacaoCommand, G
     public async Task<Guid> Handle(ExcluirTransacaoCommand request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserResolver.TenantId;
+        var userId = _currentUserResolver.UserId;
+
+        if (userId == Guid.Empty || tenantId == Guid.Empty)
+            throw new UnauthorizedAccessException("Usuário ou tenant não identificado.");
 
         var transacao = await _context.Transacoes
             .FirstOrDefaultAsync(x => x.Id == request.Id && x.TenantId == tenantId, cancellationToken);

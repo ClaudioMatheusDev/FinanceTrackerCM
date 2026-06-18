@@ -11,6 +11,7 @@ using System.Text;
 using FinanceTrackerCM.Application.Users;
 using Microsoft.AspNetCore.Identity;
 using FinanceTrackerCM.Infrastructure.Context;
+using FluentValidation;
 
 
 
@@ -25,7 +26,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddHttpContextAccessor();
 
-// CORS for frontend dev (Vite)
+// CORS para o frontend local (Vite)
 var viteOrigin = builder.Configuration["Vite:Url"] ?? "http://localhost:5174";
 builder.Services.AddCors(options =>
 {
@@ -43,7 +44,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
 
 // Configuração da autenticação JWT
 // Preferir `Jwt:Key` na configuração; fallback para `JWT_KEY` env var se necessário
-var jwtKey = builder.Configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("JWT_KEY");
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey))
+    jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 var jwtAudience = builder.Configuration["Jwt:Audience"];
 
@@ -70,17 +73,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("Frontend", policy =>
-    {
-        policy
-            .WithOrigins("http://localhost:5174")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
 // Injeção de dependência para resolver o usuário atual
 builder.Services.AddScoped<FinanceTrackerCM.Application.Interfaces.ICurrentUserResolver, CurrentUserResolver>();
 builder.Services.AddScoped<AuditLogCM.Core.Interfaces.ICurrentUserResolver, CurrentUserResolver>();
@@ -101,6 +93,8 @@ builder.Services.AddMediatR(cfg =>
         typeof(FinanceTrackerCM.Application.UseCases.Contas.CriarContaCommand).Assembly));
 
 builder.Services.AddScoped<ITokenService, TokenService>(); // Registro do serviço de token para injeção de dependência, permitindo que a aplicação utilize a implementação concreta do TokenService para criar tokens de acesso e atualização durante os processos de autenticação e autorização dos usuários na aplicação
+// Registro do serviço de relatórios (PDF/Excel)
+builder.Services.AddScoped<IReportService, ReportService>();
 
 // Registrando serviços finais antes de construir a aplicação
 builder.Services.AddAuthorization();
@@ -114,9 +108,36 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-app.UseRouting();
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exception = context.Features
+            .Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?
+            .Error;
 
-app.UseCors("Frontend");
+        var (statusCode, message) = exception switch
+        {
+            ValidationException validationException => (
+                StatusCodes.Status400BadRequest,
+                string.Join("; ", validationException.Errors.Select(e => e.ErrorMessage))),
+            UnauthorizedAccessException => (
+                StatusCodes.Status401Unauthorized,
+                exception.Message),
+            InvalidOperationException => (
+                StatusCodes.Status404NotFound,
+                exception.Message),
+            _ => (
+                StatusCodes.Status500InternalServerError,
+                "Ocorreu um erro inesperado.")
+        };
+
+        context.Response.StatusCode = statusCode;
+        await context.Response.WriteAsJsonAsync(new { message });
+    });
+});
+
+app.UseRouting();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

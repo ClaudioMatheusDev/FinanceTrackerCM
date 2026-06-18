@@ -20,7 +20,14 @@ public class TokenService : ITokenService
 /// <returns>Uma string representando o token de acesso JWT criado para o usuário.</returns>
     public string CreateAccessToken(ApplicationUser user)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? throw new InvalidOperationException("Chave JWT não configurada")));
+        var jwtKey = _config["Jwt:Key"];
+        if (string.IsNullOrWhiteSpace(jwtKey))
+            jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
+
+        if (string.IsNullOrWhiteSpace(jwtKey))
+            throw new InvalidOperationException("Chave JWT não configurada");
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var claims = new[]
         {
@@ -34,10 +41,16 @@ public class TokenService : ITokenService
             issuer: _config["Jwt:Issuer"],
             audience: _config["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(int.Parse(_config["Jwt:AccessTokenExpirationMinutes"] ?? throw new InvalidOperationException("Chave JWT de expiração do token de acesso não configurada"))),
+            expires: DateTime.UtcNow.AddMinutes(GetAccessTokenExpirationMinutes()),
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    private int GetAccessTokenExpirationMinutes()
+    {
+        var configuredValue = _config["Jwt:AccessTokenExpirationMinutes"];
+        return int.TryParse(configuredValue, out var minutes) && minutes > 0 ? minutes : 15;
     }
 /// <summary>
 ///     Cria um token de atualização (refresh token) para o usuário especificado, gerando um token aleatório e 
