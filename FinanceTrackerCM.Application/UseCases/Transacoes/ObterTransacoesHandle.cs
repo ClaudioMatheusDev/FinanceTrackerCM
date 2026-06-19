@@ -32,7 +32,9 @@ namespace FinanceTrackerCM.Application.UseCases.Transacoes
                 Status = t.Status,
                 Conta = t.Conta,
                 Categoria = t.Categoria,
-                Tipo = t.Tipo
+                Tipo = t.Tipo,
+                DataTransacao = t.DataTransacao,
+                TenantId = t.TenantId
             }).ToListAsync(cancellationToken);
             return transacao;
         }

@@ -119,6 +119,29 @@ namespace FinanceTrackerCM.API.Controllers
             return Ok(new { accessToken = access });
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            if (Request.Cookies.TryGetValue("ft_refresh", out var raw) && !string.IsNullOrWhiteSpace(raw))
+            {
+                var hash = _tokenService.ComputeRefreshTokenHash(raw);
+                var rt = await _db.RefreshTokens.FirstOrDefaultAsync(x => x.Token == hash && !x.Revoked);
+                if (rt != null)
+                {
+                    rt.Revoked = true;
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+            Response.Cookies.Delete("ft_refresh", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = Request.IsHttps,
+                SameSite = SameSiteMode.Strict
+            });
+            return NoContent();
+        }
+
         private int GetRefreshTokenExpirationDays()
         {
             var configuredValue = _configuration["Jwt:RefreshTokenExpirationDays"];

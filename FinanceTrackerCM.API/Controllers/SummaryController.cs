@@ -22,7 +22,7 @@ namespace FinanceTrackerCM.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] int? month, [FromQuery] int? year)
         {
             var tenantId = _currentUser.TenantId;
             if (tenantId == Guid.Empty)
@@ -32,6 +32,9 @@ namespace FinanceTrackerCM.API.Controllers
 
             // aplicar filtro pelo tenant
             trans = trans.Where(t => t.TenantId == tenantId);
+
+            if (month.HasValue && year.HasValue)
+                trans = trans.Where(t => t.DataTransacao.Month == month.Value && t.DataTransacao.Year == year.Value);
 
             var receitas = await trans.Where(t => t.Tipo == TipoTransacao.Receita).SumAsync(t => (decimal?)t.Valor) ?? 0m;
             var despesas = await trans.Where(t => t.Tipo == TipoTransacao.Despesa).SumAsync(t => (decimal?)t.Valor) ?? 0m;

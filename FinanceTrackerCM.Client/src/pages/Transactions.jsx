@@ -1,38 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import api from '../services/api'
-import '../styles/transactions.css'
+import React, { useEffect, useState } from 'react';
+import api from '../services/api';
+import '../styles/transactions.css';
+
+const tipoLabel = {
+  0: 'Receita',
+  1: 'Despesa'
+};
+
+function todayInputValue() {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export default function Transactions(){
-  const [items, setItems] = useState([])
-  
-  // Estados para armazenar as opções que vêm do banco
-  const [contas, setContas] = useState([])
-  const [categorias, setCategorias] = useState([])
+  const [items, setItems] = useState([]);
+  const [contas, setContas] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [contaId, setContaId] = useState('');
+  const [categoriaId, setCategoriaId] = useState('');
+  const [valor, setValor] = useState('');
+  const [dataTransacao, setDataTransacao] = useState(todayInputValue());
+  const [descricao, setDescricao] = useState('');
 
-  // Estados dos campos do formulário
-  const [contaId, setContaId] = useState('')
-  const [categoriaId, setCategoriaId] = useState('')
-  const [valor, setValor] = useState('')
-  const [descricao, setDescricao] = useState('')
-
-  // Carrega transações, contas e categorias ao montar o componente
   useEffect(() => {
-    // Busca transações
-    api.get('/api/transacoes').then(r => setItems(r.data)).catch(() => {})
-    
-    // Busca contas para o Select
-    api.get('/api/contas').then(r => setContas(r.data)).catch(() => {})
-    
-    // Busca categorias para o Select
-    api.get('/api/categorias').then(r => setCategorias(r.data)).catch(() => {})
-  }, [])
+    loadData();
+  }, []);
+
+  async function loadData() {
+    const [transacoesRes, contasRes, categoriasRes] = await Promise.all([
+      api.get('/api/transacoes'),
+      api.get('/api/contas'),
+      api.get('/api/categorias')
+    ]);
+
+    setItems(transacoesRes.data);
+    setContas(contasRes.data);
+    setCategorias(categoriasRes.data);
+  }
 
   async function create(e){
-    e.preventDefault()
+    e.preventDefault();
     
     if (!contaId || !categoriaId) {
-      alert('Por favor, selecione uma conta e uma categoria.')
-      return
+      alert('Selecione uma conta e uma categoria.');
+      return;
     }
 
     try {
@@ -40,49 +50,43 @@ export default function Transactions(){
         contaId, 
         categoriaId, 
         valor: parseFloat(valor), 
-        dataTransacao: new Date().toISOString(), 
+        dataTransacao: new Date(`${dataTransacao}T12:00:00`).toISOString(), 
         descricao 
-      })
+      });
       
-      const r = await api.get('/api/transacoes')
-      setItems(r.data)
-      setValor('')
-      setDescricao('')
-      setContaId('')
-      setCategoriaId('')
+      await loadData();
+      setValor('');
+      setDescricao('');
+      setContaId('');
+      setCategoriaId('');
+      setDataTransacao(todayInputValue());
     } catch(err) {
-      alert('Erro ao registrar transação')
+      alert(err.response?.data?.message || 'Erro ao registrar transacao');
     }
   }
 
   async function remove(id){
     try {
-      await api.delete('/api/transacoes/' + id)
-      setItems(items.filter(i => i.id !== id))
+      await api.delete('/api/transacoes/' + id);
+      await loadData();
     } catch(err) {
-      alert('Erro ao excluir transação')
+      alert(err.response?.data?.message || 'Erro ao excluir transacao');
     }
   }
 
-  // Função auxiliar para encontrar o nome da conta na listagem (melhora a visualização)
-    const getNomeConta = (id) => {
-      const conta = contas.find(c => (c.id || c.Id) === id)
-      return conta ? (conta.nome || conta.Nome) : id
-    }
+  const getNomeConta = (id) => {
+    const conta = contas.find(c => c.id === id);
+    return conta ? conta.nome : id;
+  };
 
-    const getNomeCategoria = (id) => {
-      const categoria = categorias.find(c => (c.id || c.Id) === id)
-      return categoria ? (categoria.nomeCategoria || categoria.nomeCategoria) : id
-    }
+  const getCategoria = (id) => categorias.find(c => c.id === id);
 
   return (
     <div className="page-container">
-      <h2>Gerenciar Transações</h2>
+      <h2>Gerenciar Transacoes</h2>
       
       <form className="card form-grid" onSubmit={create}>
         <div className="input-grid">
-          
-          {/* Select de Contas */}
           <select value={contaId} onChange={e => setContaId(e.target.value)} required>
             <option value="">Selecione a Conta</option>
             {contas.map(c => (
@@ -92,41 +96,47 @@ export default function Transactions(){
             ))}
           </select>
 
-          {/* Select de Categorias */}
           <select value={categoriaId} onChange={e => setCategoriaId(e.target.value)} required>
             <option value="">Selecione a Categoria</option>
             {categorias.map(c => (
-              <option key={c.id || c.Id} value={c.id || c.Id}>
-                {c.nomeCategoria} {/* <-- Alterado de c.nome para c.nomeCategoria */}
+              <option key={c.id} value={c.id}>
+                {c.nomeCategoria} ({tipoLabel[c.tipo]})
               </option>
             ))}
           </select>
 
           <input type="number" step="0.01" placeholder="Valor (R$)" value={valor} onChange={e => setValor(e.target.value)} required />
-          <input placeholder="Descrição" value={descricao} onChange={e => setDescricao(e.target.value)} />
+          <input type="date" value={dataTransacao} onChange={e => setDataTransacao(e.target.value)} required />
+          <input placeholder="Descricao" value={descricao} onChange={e => setDescricao(e.target.value)} required />
         </div>
-        <button type="submit" className="btn-submit">Registrar Transação</button>
+        <button type="submit" className="btn-submit">Registrar Transacao</button>
       </form>
 
       <div className="card">
         <ul className="transaction-list">
-          {items.map(i => (
-            <li key={i.id} className="transaction-item">
-              <div className="transaction-info">
-                <span className="transaction-desc">{i.descricao || 'Sem descrição'}</span>
-                {}
-                <span className="transaction-meta">
-                  Conta: {getNomeConta(i.contaId)} | Categoria: {getNomeCategoria(i.categoriaId)}
-                </span>
-              </div>
-              <div className="transaction-actions">
-                <span className="transaction-amount">R$ {parseFloat(i.valor).toFixed(2)}</span>
-                <button className="btn-delete" onClick={() => remove(i.id)}>Excluir</button>
-              </div>
-            </li>
-          ))}
+          {items.map(i => {
+            const categoria = getCategoria(i.categoriaId);
+            const isReceita = i.tipo === 0;
+
+            return (
+              <li key={i.id} className="transaction-item">
+                <div className="transaction-info">
+                  <span className="transaction-desc">{i.descricao || 'Sem descricao'}</span>
+                  <span className="transaction-meta">
+                    {new Date(i.dataTransacao).toLocaleDateString('pt-BR')} | Conta: {getNomeConta(i.contaId)} | Categoria: {categoria?.nomeCategoria || i.categoriaId}
+                  </span>
+                </div>
+                <div className="transaction-actions">
+                  <span className={isReceita ? 'transaction-amount income' : 'transaction-amount expense'}>
+                    {isReceita ? '+' : '-'} R$ {parseFloat(i.valor).toFixed(2)}
+                  </span>
+                  <button className="btn-delete" onClick={() => remove(i.id)}>Excluir</button>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
-  )
+  );
 }

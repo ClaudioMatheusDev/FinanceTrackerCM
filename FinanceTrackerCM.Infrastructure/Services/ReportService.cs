@@ -16,13 +16,13 @@ namespace FinanceTrackerCM.Infrastructure.Services
         public ReportService(AppDbContext db)
         {
             _db = db;
+            QuestPDF.Settings.License = LicenseType.Community;
         }
 
         public async Task<byte[]> GenerateMonthlyReportPdfAsync(Guid tenantId, int month, int year)
         {
             var transactions = await _db.Transacoes
                 .AsNoTracking()
-                .IgnoreQueryFilters()
                 .Where(t => t.TenantId == tenantId && t.DataTransacao.Month == month && t.DataTransacao.Year == year)
                 .Include(t => t.Categoria)
                 .Include(t => t.Conta)
@@ -87,7 +87,6 @@ namespace FinanceTrackerCM.Infrastructure.Services
         {
             var transactions = await _db.Transacoes
                 .AsNoTracking()
-                .IgnoreQueryFilters()
                 .Where(t => t.TenantId == tenantId && t.DataTransacao.Month == month && t.DataTransacao.Year == year)
                 .Include(t => t.Categoria)
                 .Include(t => t.Conta)
