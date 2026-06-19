@@ -25,7 +25,7 @@ namespace FinanceTrackerCM.Infrastructure.Services
                          ?? user?.FindFirstValue(ClaimTypes.NameIdentifier)
                          ?? user?.FindFirstValue("id");
 
-                return string.IsNullOrWhiteSpace(id) ? Guid.Empty : Guid.Parse(id);
+                return Guid.TryParse(id, out var userId) ? userId : Guid.Empty;
             }
         }
         /// <summary>
@@ -37,7 +37,7 @@ namespace FinanceTrackerCM.Infrastructure.Services
             get
             {
                 var t = _accessor.HttpContext?.User?.FindFirstValue("TenantId");
-                return t is null ? Guid.Empty : Guid.Parse(t);
+                return Guid.TryParse(t, out var tenantId) ? tenantId : Guid.Empty;
             }
         }
 

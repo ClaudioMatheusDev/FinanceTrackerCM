@@ -1,4 +1,4 @@
-namespace FinanceTrackerCM.Application.DTOs
+namespace FinanceTrackerCM.API.DTOs
 {
     public class RegisterDto
     {

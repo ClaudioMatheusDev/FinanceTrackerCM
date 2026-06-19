@@ -2,6 +2,7 @@ using MediatR;
 using FinanceTrackerCM.Domain.Entities;
 using FinanceTrackerCM.Domain.Enums;
 using FinanceTrackerCM.Application.Interfaces;
+using FluentValidation;
 
 namespace FinanceTrackerCM.Application.UseCases.Contas;
 
@@ -19,6 +20,10 @@ public class CriarContaHandle : IRequestHandler<CriarContaCommand, Guid>
     public async Task<Guid> Handle(CriarContaCommand request, CancellationToken cancellationToken)
     {// Criação de uma nova instância da entidade Conta com os dados fornecidos no comando CriarContaCommand e valores padrão para os campos que não são fornecidos
         var tenantId = _currentUserResolver.TenantId;
+        var userId = _currentUserResolver.UserId;
+
+        if (userId == Guid.Empty || tenantId == Guid.Empty)
+            throw new UnauthorizedAccessException("Usuário ou tenant não identificado.");
 
         var novaConta = new Conta
         {// Atribuição dos valores para os campos da nova conta, incluindo um novo Guid para o Id, o nome e saldo inicial fornecidos no comando, o status definido como Ativa e um IdUsuario fictício (deve ser substituído pelo Id do usuário autenticado)
@@ -26,9 +31,11 @@ public class CriarContaHandle : IRequestHandler<CriarContaCommand, Guid>
             NomeConta = request.Nome, // Nome da conta fornecido no comando
             Saldo = request.SaldoInicial, // Saldo inicial fornecido no comando
             Status = StatusConta.Ativa, // Status da conta definido como Ativa por padrão
-            IdUsuario = _currentUserResolver.UserId, // Id do usuário proprietário da conta (do usuário autenticado)
+            IdUsuario = userId, // Id do usuário proprietário da conta (do usuário autenticado)
             TenantId = tenantId,
         };
+
+        new ContaValidator().ValidateAndThrow(novaConta);
 
         _context.Contas.Add(novaConta); // Adicionar a nova conta ao DbSet de Contas do contexto de banco de dados para que ela seja persistida no banco de dados
         await _context.SaveChangesAsync(cancellationToken); // Salvar as alterações no banco de dados de forma assíncrona, garantindo que a nova conta seja persistida

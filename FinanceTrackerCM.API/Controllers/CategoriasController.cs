@@ -21,7 +21,7 @@ namespace FinanceTrackerCM.API.Controllers
         public async Task<IActionResult> CriarCategoriaHandler([FromBody] CriarCategoriaCommand command)
         {
             var result = await _mediator.Send(command);
-            return Ok(result);
+            return CreatedAtAction(nameof(ListarCategorias), new { id = result }, result);
         }
 
         [HttpPut("{id}")]
@@ -46,16 +46,9 @@ namespace FinanceTrackerCM.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> ExcluirCategoriaHandler(Guid id)
         {
-            try
-            {
-                var command = new ExcluirCategoriaCommand { Id = id };
-                var result = await _mediator.Send(command);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Ocorreu um erro ao excluir a categoria: {ex.Message}");
-            }
+            var command = new ExcluirCategoriaCommand { Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

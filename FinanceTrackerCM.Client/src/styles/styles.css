@@ -6,11 +6,13 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .layout { display: flex; min-height: 100vh; }
 
 /* Sidebar */
-.sidebar { width: 240px; background: #2c3e50; color: white; padding: 20px; }
+.sidebar { width: 240px; background: #2c3e50; color: white; padding: 20px; display: flex; flex-direction: column; }
 .sidebar h2 { margin-bottom: 30px; font-size: 1.5rem; text-align: center; }
 .sidebar nav { display: flex; flex-direction: column; gap: 10px; }
 .sidebar a { color: #bdc3c7; text-decoration: none; padding: 10px; border-radius: 4px; transition: 0.3s; }
 .sidebar a:hover, .sidebar a.active { background: #34495e; color: white; }
+.logout-button { margin-top: auto; padding: 10px; border: 1px solid #52697f; border-radius: 4px; background: transparent; color: #ecf0f1; cursor: pointer; font-weight: 600; }
+.logout-button:hover { background: #34495e; }
 
 /* Conteúdo */
 .content { flex: 1; padding: 40px; }
