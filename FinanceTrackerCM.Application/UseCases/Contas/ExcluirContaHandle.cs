@@ -15,11 +15,13 @@ namespace FinanceTrackerCM.Application.UseCases.Contas;
         public async Task<Guid> Handle(ExcluirContaCommand request, CancellationToken cancellationToken)
         {
             var tenantId = _currentUserResolver.TenantId;
+            var userId = _currentUserResolver.UserId;
 
-           // var conta = await _context.Contas
-             //   .FirstOrDefaultAsync(x => x.Id == request.Id && x.TenantId == tenantId, cancellationToken);
+            if (userId == Guid.Empty || tenantId == Guid.Empty)
+                throw new UnauthorizedAccessException("Usuário ou tenant não identificado.");
+
             var conta = await _context.Contas
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.TenantId == tenantId, cancellationToken);
 
 
             if (conta == null)

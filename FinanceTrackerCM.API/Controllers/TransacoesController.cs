@@ -22,7 +22,7 @@ namespace FinanceTrackerCM.API.Controllers
             var result = await _mediator.Send(command);
             // Enviar o comando CriarTransacaoCommand para o MediatR, que irá delegar a execução para o handler correspondente (CriarTransacaoHandler) 
             // e retornar o resultado (Id da nova transação criada)
-            return Ok(result);
+            return CreatedAtAction(nameof(Get), new { id = result }, result);
         }
 
         [HttpGet("{id}")]
@@ -58,19 +58,11 @@ namespace FinanceTrackerCM.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         { // Método de ação para excluir uma transação financeira específica do usuário, que recebe o ID da transação a ser excluída como parâmetro
-
-            try
-            {
-                var command = new ExcluirTransacaoCommand { Id = id };
-                var result = await _mediator.Send(command);
-                // Enviar o comando ExcluirTransacaoCommand para o MediatR, que irá delegar a execução para o handler correspondente (ExcluirTransacaoHandler)
-                // e retornar o resultado (Id da transação excluída)
-                return Ok(result);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var command = new ExcluirTransacaoCommand { Id = id };
+            var result = await _mediator.Send(command);
+            // Enviar o comando ExcluirTransacaoCommand para o MediatR, que irá delegar a execução para o handler correspondente (ExcluirTransacaoHandler)
+            // e retornar o resultado (Id da transação excluída)
+            return NoContent();
         }
 
     }

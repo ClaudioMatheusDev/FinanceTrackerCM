@@ -19,11 +19,9 @@ namespace FinanceTrackerCM.API.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Create(CriarContaCommand command)
-        { // Método de ação para criar uma nova conta financeira do usuário, que recebe um comando CriarContaCommand com os dados da conta a ser criada
+        {
             var result = await _mediator.Send(command);
-            // Enviar o comando CriarContaCommand para o MediatR, que irá delegar a execução para o handler correspondente (CriarContaHandler) 
-            // e retornar o resultado (Id da nova conta criada)
-            return Ok(result);
+            return CreatedAtAction(nameof(GetById), new { id = result }, result);
         }
 
         [HttpGet("{id}")]
@@ -59,15 +57,8 @@ namespace FinanceTrackerCM.API.Controllers
         public async Task<IActionResult> Update(Guid id, [FromBody] AtualizarContaCommand command)
         {
             command.Id = id;
-            try
-            {
-                var result = await _mediator.Send(command);
-                return Ok(result);
-            }
-            catch (InvalidOperationException ex) when (ex.Message.Contains("Conta não encontrada"))
-            {
-                return NotFound(new { message = ex.Message });
-            }
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
 
@@ -80,15 +71,8 @@ namespace FinanceTrackerCM.API.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new ExcluirContaCommand { Id = id };
-            try
-            {
-                await _mediator.Send(command);
-                return NoContent();
-            }
-            catch (InvalidOperationException ex) when (ex.Message.Contains("Conta não encontrada"))
-            {
-                return NotFound(new { message = ex.Message });
-            }
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

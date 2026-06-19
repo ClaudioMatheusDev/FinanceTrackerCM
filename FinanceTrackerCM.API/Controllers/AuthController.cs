@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using FinanceTrackerCM.Application.Users;
-using FinanceTrackerCM.Application.DTOs;
+using FinanceTrackerCM.API.DTOs;
 using FinanceTrackerCM.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace FinanceTrackerCM.Application.Controllers
+namespace FinanceTrackerCM.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -36,9 +36,8 @@ namespace FinanceTrackerCM.Application.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            // Ao registrar, não aceite TenantId do cliente. Por padrão deixamos Guid.Empty;
-            // administradores deverão associar o usuário a um tenant posteriormente.
-            var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email, TenantId = Guid.Empty };
+            // Cada usuário recebe um tenant próprio no cadastro. Não aceite TenantId do cliente.
+            var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email, TenantId = Guid.NewGuid() };
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (!result.Succeeded) return BadRequest(result.Errors);
             return Ok();
@@ -53,8 +52,15 @@ namespace FinanceTrackerCM.Application.Controllers
             var pw = await _userManager.CheckPasswordAsync(user, dto.Password);
             if (!pw) return Unauthorized();
 
+            if (user.TenantId == Guid.Empty)
+            {
+                user.TenantId = Guid.NewGuid();
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded) return BadRequest(updateResult.Errors);
+            }
+
             var access = _tokenService.CreateAccessToken(user);
-            var (refresh, raw) = _tokenService.CreateRefreshToken(user.Id, int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"] ?? "7"));
+            var (refresh, raw) = _tokenService.CreateRefreshToken(user.Id, GetRefreshTokenExpirationDays());
             _db.RefreshTokens.Add(refresh);
             await _db.SaveChangesAsync();
 
@@ -87,8 +93,15 @@ namespace FinanceTrackerCM.Application.Controllers
             var user = await _userManager.FindByIdAsync(rt.UserId.ToString());
             if (user == null) return Unauthorized();
 
+            if (user.TenantId == Guid.Empty)
+            {
+                user.TenantId = Guid.NewGuid();
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded) return BadRequest(updateResult.Errors);
+            }
+
             rt.Revoked = true; // rotate
-            var (newRefresh, newRaw) = _tokenService.CreateRefreshToken(user.Id, int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"] ?? "7"));
+            var (newRefresh, newRaw) = _tokenService.CreateRefreshToken(user.Id, GetRefreshTokenExpirationDays());
             _db.RefreshTokens.Add(newRefresh);
             await _db.SaveChangesAsync();
 
@@ -104,6 +117,35 @@ namespace FinanceTrackerCM.Application.Controllers
 
             var access = _tokenService.CreateAccessToken(user);
             return Ok(new { accessToken = access });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            if (Request.Cookies.TryGetValue("ft_refresh", out var raw) && !string.IsNullOrWhiteSpace(raw))
+            {
+                var hash = _tokenService.ComputeRefreshTokenHash(raw);
+                var rt = await _db.RefreshTokens.FirstOrDefaultAsync(x => x.Token == hash && !x.Revoked);
+                if (rt != null)
+                {
+                    rt.Revoked = true;
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+            Response.Cookies.Delete("ft_refresh", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = Request.IsHttps,
+                SameSite = SameSiteMode.Strict
+            });
+            return NoContent();
+        }
+
+        private int GetRefreshTokenExpirationDays()
+        {
+            var configuredValue = _configuration["Jwt:RefreshTokenExpirationDays"];
+            return int.TryParse(configuredValue, out var days) && days > 0 ? days : 7;
         }
     }
 }

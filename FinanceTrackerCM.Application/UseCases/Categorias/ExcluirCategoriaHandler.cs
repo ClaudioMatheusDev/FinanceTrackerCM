@@ -19,6 +19,10 @@ public class ExcluirCategoriaHandler : IRequestHandler<ExcluirCategoriaCommand, 
     public async Task<Guid> Handle(ExcluirCategoriaCommand request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserResolver.TenantId;
+        var userId = _currentUserResolver.UserId;
+
+        if (userId == Guid.Empty || tenantId == Guid.Empty)
+            throw new UnauthorizedAccessException("Usuário ou tenant não identificado.");
 
         var categoria = await _context.Categorias
             .FirstOrDefaultAsync(x => x.Id == request.Id && x.TenantId == tenantId, cancellationToken);

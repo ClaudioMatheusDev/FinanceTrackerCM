@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "Your_strong@Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Your_strong@Passw0rd", "-Q", "SELECT 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: FinanceTrackerCM.API/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=FinanceTracker;User Id=sa;Password=Your_strong@Passw0rd;TrustServerCertificate=True;
+      - Jwt__Key=${JWT_KEY:-dev-only-change-me-9B3F4A8E6D2C1F7A5B9D4E8C6F2A1B7D9E4C8F6A2B1D5E7F3C9A4B8D6E1F2A5}
+      - Jwt__Issuer=FinanceTrackerCM
+      - Jwt__Audience=FinanceTrackerCMClients
+      - Database__ApplyMigrations=true
+    ports:
+      - "5000:80"

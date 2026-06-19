@@ -11,8 +11,8 @@
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
   gap: 12px; 
 }
-.form-grid input { padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; outline: none; }
-.form-grid input:focus { border-color: #3498db; }
+.form-grid input, .form-grid select { padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; outline: none; }
+.form-grid input:focus, .form-grid select:focus { border-color: #3498db; }
 
 /* Botão de Envio */
 .btn-submit { 
@@ -38,6 +38,8 @@
 /* Ações e Valor (Lado Direito) */
 .transaction-actions { display: flex; align-items: center; gap: 20px; }
 .transaction-amount { font-weight: bold; color: #2c3e50; font-size: 1.1rem; }
+.transaction-amount.income { color: #27ae60; }
+.transaction-amount.expense { color: #e74c3c; }
 
 /* Botão Excluir */
 .btn-delete { 
