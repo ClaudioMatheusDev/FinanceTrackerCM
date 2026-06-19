@@ -1,212 +1,160 @@
 # FinanceTrackerCM
 
-API RESTful de controle financeiro pessoal construída com **Clean Architecture**, **CQRS** e integração com o pacote NuGet [AuditLogCM](https://www.nuget.org/packages/AuditLogCM) — desenvolvido pelo mesmo autor para auditoria automática de operações no banco de dados.
+Aplicacao de controle financeiro pessoal com API RESTful em .NET 9 e frontend React/Vite. O projeto usa Clean Architecture, CQRS com MediatR, autenticacao JWT, refresh token em cookie HttpOnly e auditoria automatica com o pacote NuGet `AuditLogCM`.
 
----
+## Stack
 
-## Sobre o projeto
-
-O FinanceTrackerCM permite que usuários gerenciem suas finanças pessoais com controle de contas, categorias e transações. Toda operação de escrita é automaticamente auditada pelo pacote `AuditLogCM`, registrando quem alterou, o quê, quando e como estava antes.
-
----
-
-## Tecnologias
-
-- .NET 9 / C#
-- ASP.NET Core Web API
+- .NET 9 / ASP.NET Core Web API
 - Entity Framework Core 9 + SQL Server
-- MediatR (CQRS)
+- ASP.NET Core Identity
 - JWT Bearer Authentication
-- AuditLogCM (pacote NuGet próprio)
-- Docker (em breve)
-- GitHub Actions CI/CD
+- MediatR
+- AuditLogCM / AuditLogCM.EFCore
+- QuestPDF e ClosedXML para relatorios
+- React 18 + Vite + Chart.js
+- Docker Compose com SQL Server
 
----
+## Estrutura
 
-## Arquitetura
-
-O projeto segue os princípios de **Clean Architecture**, com separação clara de responsabilidades entre as camadas:
-
+```text
+FinanceTrackerCM.API             Controllers, autenticacao, DI e startup
+FinanceTrackerCM.Application     Use cases, DTOs, interfaces e usuarios
+FinanceTrackerCM.Domain          Entidades, enums e validadores
+FinanceTrackerCM.Infrastructure  DbContext, migrations e servicos externos
+FinanceTrackerCM.Client          Frontend React/Vite
 ```
-FinanceTrackerCM.Domain          → Entidades, Enums e regras de negócio
-FinanceTrackerCM.Application     → Use Cases (Commands/Queries), Interfaces, DTOs
-FinanceTrackerCM.Infrastructure  → DbContext, Repositórios, Serviços externos
-FinanceTrackerCM.API             → Controllers, Middleware, Program.cs
-```
-
-O fluxo de dependência respeita a regra da Clean Architecture:
-
-```
-API → Application → Domain
-Infrastructure → Application
-Infrastructure → Domain
-```
-
----
 
 ## Funcionalidades
 
-- Gerenciamento de contas financeiras (Nubank, Carteira, Poupança...)
-- Categorização de transações (Alimentação, Transporte, Salário...)
-- Registro de transações com tipo (Receita/Despesa) e status
-- Auditoria automática de todas as operações via AuditLogCM
-- Autenticação e autorização com JWT (em desenvolvimento)
-- Padrão CQRS com MediatR para separação de leitura e escrita
+- Cadastro, login, refresh token e logout
+- CRUD de contas, categorias e transacoes
+- Isolamento multi-tenant por usuario autenticado
+- Dashboard mensal com receitas, despesas, saldo e grafico
+- Relatorios mensais em PDF e Excel
+- Atualizacao automatica do saldo da conta ao criar, editar ou excluir transacoes
+- Auditoria de operacoes de escrita via AuditLogCM
 
----
+## Configuracao local
 
-## Estrutura de pastas
+1. Copie o exemplo de ambiente:
 
-```
-FinanceTrackerCM/
-├── FinanceTrackerCM.Domain/
-│   ├── Entities/
-│   │   ├── Conta.cs
-│   │   ├── Categoria.cs
-│   │   └── Transacao.cs
-│   └── Enums/
-│       ├── TipoTransacao.cs
-│       ├── StatusConta.cs
-│       └── StatusTransacao.cs
-│
-├── FinanceTrackerCM.Application/
-│   ├── Interfaces/
-│   │   └── IAppDbContext.cs
-│   ├── DTOs/
-│   └── UseCases/
-│       ├── Contas/
-│       ├── Categorias/
-│       ├── Transacoes/
-│       └── Users/
-│
-├── FinanceTrackerCM.Infrastructure/
-│   ├── Context/
-│   │   └── AppDbContext.cs
-│   └── Services/
-│       └── CurrentUserResolver.cs
-│
-└── FinanceTrackerCM.API/
-    ├── Controllers/
-    │   ├── ContasController.cs
-    │   ├── CategoriasController.cs
-    │   └── TransacoesController.cs
-    ├── Middleware/
-    └── Program.cs
-```
-
----
-
-## Como executar
-
-### Pré-requisitos
-
-- .NET 9 SDK
-- SQL Server (local ou Docker)
-- Visual Studio 2022+ ou VS Code
-
-### Configuração
-
-1. Clone o repositório:
 ```bash
-git clone https://github.com/ClaudioMatheusDev/FinanceTrackerCM.git
-cd FinanceTrackerCM
+copy FinanceTrackerCM.API\.env.example FinanceTrackerCM.API\.env
 ```
 
-2. Configure a connection string no `appsettings.json`:
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=FinanceTrackerCM;Trusted_Connection=True;TrustServerCertificate=True"
-  }
-}
-```
+2. Preencha `JWT_KEY` e `Jwt__Key` no `.env` com uma chave longa.
 
-3. Aplique as migrations:
+3. Ajuste a connection string em `FinanceTrackerCM.API/appsettings.json`, se necessario.
+
+4. Aplique as migrations:
+
 ```bash
 dotnet ef database update --project FinanceTrackerCM.Infrastructure --startup-project FinanceTrackerCM.API --context AppDbContext
 ```
 
-4. Execute a API:
+5. Execute a API:
+
 ```bash
 dotnet run --project FinanceTrackerCM.API
 ```
 
-5. Acesse a documentação:
-```
-http://localhost:{porta}/openapi/v1.json
+6. Execute o frontend:
+
+```bash
+cd FinanceTrackerCM.Client
+npm install
+npm run dev
 ```
 
----
+Por padrao, o frontend roda em `http://localhost:5174` e a API em `http://localhost:5062`.
 
-## Endpoints
+## Docker
+
+O `docker-compose.yml` sobe SQL Server e a API. A API recebe a connection string, configuracoes JWT e `Database__ApplyMigrations=true`, entao aplica as migrations no startup do container.
+
+```bash
+docker compose up --build
+```
+
+A API fica exposta em:
+
+```text
+http://localhost:5000
+```
+
+## Endpoints principais
+
+### Auth
+
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| POST | `/api/auth/register` | Cadastra usuario |
+| POST | `/api/auth/login` | Autentica e cria refresh token |
+| POST | `/api/auth/refresh` | Renova access token |
+| POST | `/api/auth/logout` | Revoga refresh token e limpa cookie |
 
 ### Contas
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/contas` | Criar nova conta |
-| GET | `/api/contas` | Listar todas as contas |
-| GET | `/api/contas/{id}` | Obter conta por ID |
-| PUT | `/api/contas/{id}` | Atualizar conta |
-| DELETE | `/api/contas/{id}` | Excluir conta |
+
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| POST | `/api/contas` | Cria conta |
+| GET | `/api/contas` | Lista contas |
+| GET | `/api/contas/{id}` | Busca conta |
+| PUT | `/api/contas/{id}` | Atualiza conta |
+| DELETE | `/api/contas/{id}` | Exclui conta |
 
 ### Categorias
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/categorias` | Criar nova categoria |
-| GET | `/api/categorias` | Listar todas as categorias |
-| GET | `/api/categorias/{id}` | Obter categoria por ID |
-| PUT | `/api/categorias/{id}` | Atualizar categoria |
-| DELETE | `/api/categorias/{id}` | Excluir categoria |
 
-### Transações
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/transacoes` | Criar nova transação |
-| GET | `/api/transacoes` | Listar todas as transações |
-| GET | `/api/transacoes/{id}` | Obter transação por ID |
-| PUT | `/api/transacoes/{id}` | Atualizar transação |
-| DELETE | `/api/transacoes/{id}` | Excluir transação |
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| POST | `/api/categorias` | Cria categoria |
+| GET | `/api/categorias` | Lista categorias |
+| PUT | `/api/categorias/{id}` | Atualiza categoria |
+| DELETE | `/api/categorias/{id}` | Exclui categoria |
 
----
+### Transacoes
 
-## Integração com AuditLogCM
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| POST | `/api/transacoes` | Cria transacao e atualiza saldo |
+| GET | `/api/transacoes` | Lista transacoes |
+| GET | `/api/transacoes/{id}` | Busca transacao |
+| PUT | `/api/transacoes/{id}` | Atualiza transacao e recalcula saldo |
+| DELETE | `/api/transacoes/{id}` | Exclui transacao e reverte saldo |
 
-O projeto consome o pacote NuGet [AuditLogCM.EFCore](https://www.nuget.org/packages/AuditLogCM.EFCore) para auditoria automática. Toda operação de `Create`, `Update` ou `Delete` no banco gera um registro na tabela `AuditEntries` com:
+### Dashboard e relatorios
 
-- Nome da entidade alterada
-- Tipo da operação
-- Valores anteriores e novos (JSON)
-- ID e nome do usuário responsável
-- Timestamp da operação
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/api/summary?month=6&year=2026` | Resumo mensal do tenant autenticado |
+| GET | `/api/reports/monthly/pdf?month=6&year=2026` | Relatorio PDF do tenant autenticado |
+| GET | `/api/reports/monthly/excel?month=6&year=2026` | Relatorio Excel do tenant autenticado |
 
----
+Os endpoints de relatorio nao recebem `tenantId`; o tenant vem do JWT do usuario autenticado.
 
 ## Roadmap
 
-- [x] Domain (Entidades e Enums)
 - [x] Clean Architecture em 4 camadas
 - [x] CQRS com MediatR
-- [x] CRUD de Contas, Categorias e Transações
-- [x] Integração com AuditLogCM
-- [ ] Autenticação JWT
-- [ ] Relatórios em PDF com QuestPDF
-- [ ] Exportação para Excel
-- [ ] Docker + docker-compose
+- [x] CRUD de contas, categorias e transacoes
+- [x] Autenticacao JWT com refresh token
+- [x] Isolamento multi-tenant
+- [x] Dashboard React
+- [x] Relatorios PDF e Excel
+- [x] Docker Compose
+- [ ] Testes automatizados
 - [ ] GitHub Actions CI/CD completo
-
----
 
 ## Autor
 
-**Claudio Matheus** — [@ClaudioMatheusDev](https://github.com/ClaudioMatheusDev)
+Claudio Matheus - [@ClaudioMatheusDev](https://github.com/ClaudioMatheusDev)
 
 Parte de uma trilogia de projetos pessoais:
-- [AuditLogCM](https://github.com/ClaudioMatheusDev/AuditLogCM) — Pacote NuGet de auditoria ✅
-- **FinanceTrackerCM** — API de controle financeiro (em desenvolvimento)
-- JobSchedulerCM — Sistema de agendamento de jobs (em breve)
 
----
+- AuditLogCM - pacote NuGet de auditoria
+- FinanceTrackerCM - controle financeiro
+- JobSchedulerCM - sistema de agendamento de jobs
 
-## Licença
+## Licenca
 
 MIT
